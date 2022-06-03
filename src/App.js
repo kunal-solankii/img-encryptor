@@ -3,7 +3,7 @@ import LandingPage from './components/LandingPage';
 
 function App() {
   return (
-        <div className="bg-gray-200">
+        <div>
           <LandingPage/>
         </div>
   );
