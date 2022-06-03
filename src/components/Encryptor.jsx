@@ -15,18 +15,30 @@ export const Encryptor = (props) => {
         //console.log('Base 64 data'+props.imgdata)
         //console.log('..')
         var inputString = props.imgdata;
+        var iv = CryptoJS.enc.Base64.parse("1234567812345678");
+        console.log(iv)
+        var key = CryptoJS.enc.Base64.parse("1234567890123456123456");
+        console.log(key)
         console.log(inputString)
         //var words=CryptoJS.enc.Base64.parse(inputString);
        // console.log(words)
-        var encrypted = CryptoJS.AES.encrypt(inputString, props.skey)
+        var encrypted = CryptoJS.AES.encrypt(inputString,key,{
+            iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,})
         console.log('Encrypted text : ' + encrypted)
-        var decrypted = CryptoJS.AES.decrypt(encrypted, props.skey)
+        var decrypted = CryptoJS.AES.decrypt(encrypted,key, {
+            iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,})
         console.log('Decrypted : ' + decrypted)
         //var localbase64 = CryptoJS.enc.Base64.parse(decrypted);
        // var localbase64 //= CryptoJS.enc.Base64.parse(decrypted);
-        var finalstring = "data:image/jpg;base64,/"+decrypted;
-        console.log(finalstring)
-        setBase64(finalstring)
+        
+        var finalDecryptedValue = atob(CryptoJS.enc.Base64.stringify(decrypted));
+        console.log(finalDecryptedValue)
+        
+        setBase64(finalDecryptedValue)
         //console.log('Base64 String : '+base64)
         
     }
